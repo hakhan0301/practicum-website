@@ -73,11 +73,11 @@ jQuery(document).ready(function($) {
 		$(".service-box").hover(
 			function () {
 			$(this).find('img').addClass("animated pulse");
-			$(this).find('h2').addClass("animated fadeInUp");
+			//$(this).find('h2').addClass("animated fadeInUp");
 			},
 			function () {
 			$(this).find('img').removeClass("animated pulse");
-			$(this).find('h2').removeClass("animated fadeInUp");
+			//$(this).find('h2').removeClass("animated fadeInUp");
 			}
 		);
 		
