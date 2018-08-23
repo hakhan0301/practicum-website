@@ -17,6 +17,10 @@ Imports
 General
 ================================= */
 
+.lmfao {
+	color: white;
+}
+
 body{
 	text-align: center;
 	font-family: 'Open Sans', sans-serif;
@@ -136,7 +140,6 @@ margin, padding
 /* ================================
 Navbar
 ================================= */
-
 nav.navbar{
 	position: fixed;
 	top: -72px;
@@ -225,7 +228,9 @@ Home sections
 }
 
 .bg-gray {
-	background: #f8f8f8;
+	
+	background-color: rgb(246, 246, 246);
+	/* background: #f8f8f8; */
 }
 
 .bg-dark {
@@ -270,6 +275,7 @@ Intro
 	height:100vh;
 	z-index:2;
 	background-size: cover;
+	background-color: #91b3b3;
 
 }
 
@@ -295,6 +301,10 @@ Intro
 	line-height: 1.1em;
 	padding-top: .5vh;
 	text-transform: uppercase;
+
+}
+
+.navbar-logo {
 
 }
 
