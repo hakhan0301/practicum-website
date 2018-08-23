@@ -1,139 +1,169 @@
-jQuery(document).ready(function($) {
+(function($) {
 
-	$('.scrollup').click(function(){
-		$("html, body").animate({ scrollTop: 0 }, 1000);
-		return false;
-	});
-	
-		$('.accordion').on('show', function (e) {
-		
-			$(e.target).prev('.accordion-heading').find('.accordion-toggle').addClass('active');
-			$(e.target).prev('.accordion-heading').find('.accordion-toggle i').removeClass('icon-plus');
-			$(e.target).prev('.accordion-heading').find('.accordion-toggle i').addClass('icon-minus');
-		});
-		
-		$('.accordion').on('hide', function (e) {
-			$(this).find('.accordion-toggle').not($(e.target)).removeClass('active');
-			$(this).find('.accordion-toggle i').not($(e.target)).removeClass('icon-minus');
-			$(this).find('.accordion-toggle i').not($(e.target)).addClass('icon-plus');
-		});	
+  // Back to top button
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 100) {
+      $('.back-to-top').fadeIn('slow');
+    } else {
+      $('.back-to-top').fadeOut('slow');
+    }
+  });
 
-	$('.navigation').onePageNav({
-		begin: function() {
-			console.log('start');
-		},
-		end: function() {
-			console.log('stop');
-		},
-			scrollOffset: 0		
-	});
-	
-	// prettyPhoto
-	$("a[data-pretty^='prettyPhoto']").prettyPhoto();		
+  $('.back-to-top').click(function(){
+    $('html, body').animate({scrollTop : 0},800);
+    return false;
+  });
 
-    // Localscrolling 
-	$('#menu-main, .brand').localScroll();
-	
-	$('#menu-main li a').click(function(){
-		var links = $('#menu-main li a');
-		links.removeClass('selected');
-		$(this).addClass('selected');
-	});
+  //navigation
+  $('.navigation').onePageNav({
+    scrollOffset: 0
+  });
 
-    var iOS = false,
-        p = navigator.platform;
+  $(".navbar-collapse a").on('click', function() {
+    $(".navbar-collapse.collapse").removeClass('in');
+  });
 
-    if (p === 'iPad' || p === 'iPhone' || p === 'iPod') {
-        iOS = true;
-    }	
-	
-    if (iOS === false) {
+  //Home Background Slider
 
-        $('.flyIn').bind('inview', function (event, visible) {
-            if (visible === true) {
-                $(this).addClass('animated fadeInUp');
-            }
-        });
+  $(function() {
 
-        $('.flyLeft').bind('inview', function (event, visible) {
-            if (visible === true) {
-                $(this).addClass('animated fadeInLeftBig');
-            }
-        });
+    $.mbBgndGallery.buildGallery({
+      containment: "#intro",
+      timer: 3000,
+      effTimer: 1000,
+      controls: "#controls",
+      grayScale: false,
+      shuffle: false,
+      preserveWidth: false,
+      effect: "fade",
+      effect: {
+        enter: {
+          left: 0,
+          opacity: 0
+        },
+        exit: {
+          left: 0,
+          opacity: 0
+        },
+        enterTiming: "ease-in",
+        exitTiming: "ease-in"
+      },
 
-        $('.flyRight').bind('inview', function (event, visible) {
-            if (visible === true) {
-                $(this).addClass('animated fadeInRightBig');
-            }
-        });
+      // If your server allow directory listing you can use:
+      // (however this doesn't work locally on your computer)
+
+      //folderPath:"testImage/",
+
+      // else:
+
+      images: [
+        "img/bgslides/1.jpg",
+        "img/bgslides/2.jpg",
+        "img/bgslides/3.jpg"
+      ],
+
+      onStart: function() {},
+      onPause: function() {},
+      onPlay: function(opt) {},
+      onChange: function(opt, idx) {},
+      onNext: function(opt) {},
+      onPrev: function(opt) {}
+    });
+
+
+  });
+
+  // featured text
+  $("#rotator .1strotate").textrotator({
+    animation: "dissolve",
+    speed: 4000
+  });
+  $("#rotator .2ndrotate").textrotator({
+    animation: "dissolve",
+    speed: 4000
+  });
+
+  // Fixed navbar
+  $(window).scroll(function() {
+
+    var scrollTop = $(window).scrollTop();
+
+    if (scrollTop > 200) {
+      $('.navbar-default').css('display', 'block');
+      $('.navbar-default').addClass('fixed-to-top');
+
+    } else if (scrollTop == 0) {
+
+      $('.navbar-default').removeClass('fixed-to-top');
+    }
+  });
+
+
+  //parallax
+  if ($('#parallax1').length || $('#parallax2').length) {
+
+    $(window).stellar({
+      responsive: true,
+      scrollProperty: 'scroll',
+      parallaxElements: false,
+      horizontalScrolling: false,
+      horizontalOffset: 0,
+      verticalOffset: 0
+    });
+
+  }
+
+  function navbar() {
+
+    if ($(window).scrollTop() > 1) {
+      $('#navigation').addClass('show-nav');
+    } else {
+      $('#navigation').removeClass('show-nav');
+    }
+
+  }
+
+  $(document).ready(function() {
+
+    var browserWidth = $(window).width();
+
+    if (browserWidth > 560) {
+
+      $(window).scroll(function() {
+        navbar();
+      });
 
     }
-	
-	// add animation on hover
-		$(".service-box").hover(
-			function () {
-			$(this).find('img').addClass("animated pulse");
-			//$(this).find('h2').addClass("animated fadeInUp");
-			},
-			function () {
-			$(this).find('img').removeClass("animated pulse");
-			//$(this).find('h2').removeClass("animated fadeInUp");
-			}
-		);
-		
-	
-	// cache container
-	var $container = $('#portfolio-wrap');
-	$.browser.safari = ($.browser.webkit && !(/chrome/.test(navigator.userAgent.toLowerCase())));	
-	
-	if($.browser.safari){ 	
-	// initialize isotope
-	$container.isotope({
-		animationEngine : 'jquery',
-		animationOptions: {
-			duration: 200,
-			queue: false
-		},
-		layoutMode: 'fitRows'
-	});
-	} else {	
-	$container.isotope({
-		animationEngine : 'best-available',
-		animationOptions: {
-			duration: 200,
-			queue: false
-		},
-		layoutMode: 'fitRows'
-	});	
-	
-	$(window).resize(function() {
-		$container.isotope('reLayout');
-	});
-	}
-	// filter items when filter link is clicked
-	$('#filters a').click(function(){
-		$('#filters a').removeClass('active');
-		$(this).addClass('active');
-		var selector = $(this).attr('data-filter');
-		$container.isotope({ filter: selector });
-		return false;
-	});
 
-	// flexslider main
-	$('#main-flexslider').flexslider({						
-		animation: "swing",
-		direction: "vertical", 
-		slideshow: true,
-		slideshowSpeed: 3500,
-		animationDuration: 1000,
-		directionNav: true,
-		prevText: '<i class="icon-angle-up icon-2x"></i>',       
-		nextText: '<i class="icon-angle-down icon-2x active"></i>', 
-		controlNav: false,
-		smootheHeight:true,						
-		useCSS: false
-	});
-});
-	
-	
+  });
 
+
+  $(window).resize(function() {
+
+    var browserWidth = $(window).width();
+
+    if (browserWidth > 560) {
+
+      $(window).scroll(function() {
+        navbar();
+      });
+
+    }
+
+  });
+
+
+  // Carousel
+  $('.service .carousel').carousel({
+    interval: 4000
+  })
+
+  //works
+  $(function() {
+    Grid.init();
+  });
+
+  //animation
+  new WOW().init();
+
+})(jQuery);
